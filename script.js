@@ -16,11 +16,17 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 
 const testData = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 
-const tree = new Tree(testData);
+const data = [0, 1, 2, 3, 4, 5, 6];
 
+const tree = new Tree(data);
+
+console.log("original tree:");
 prettyPrint(tree.root);
 
-tree.insert(25);
-tree.insert(45);
+// tree.insert(2);
+// tree.insert(45);
 
+tree.deleteItem(3);
+
+console.log("altered tree:");
 prettyPrint(tree.root);

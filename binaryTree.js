@@ -49,29 +49,35 @@ export default class Tree {
   deleteItemUtil(currentNode, value) {
     if (currentNode === null) return null;
 
-    if (value < currentNode.data)
+    // find node with value
+    if (value < currentNode.data) {
       currentNode.left = this.deleteItemUtil(currentNode.left, value);
-    else if (value > currentNode.data)
+      return currentNode;
+    } else if (value > currentNode.data) {
       currentNode.right = this.deleteItemUtil(currentNode.right, value);
-    else {
+      return currentNode;
+    } else {
+      // case: node has one or no child nodes
       if (!currentNode.left) return currentNode.right;
       if (!currentNode.right) return currentNode.left;
 
-      let successor = getSuccessor(currentNode);
+      // case: node has 2 child nodes
+      let successorParent = currentNode;
+      let successor = currentNode.right;
+      while (successor.left !== null) {
+        successorParent = successor;
+        successor = successor.left;
+      }
+
       currentNode.data = successor.data;
-      currentNode.right = this.deleteItemUtil(
-        currentNode.right,
-        successor.data
-      );
+
+      if (successorParent.left === successor) {
+        successorParent.left = successor.right;
+      } else {
+        successorParent.right = successor.right;
+      }
     }
+
     return currentNode;
   }
-}
-
-function getSuccessor(currentNode) {
-  currentNode = currentNode.right;
-  while (currentNode !== null && currentNode.left !== null) {
-    currentNode = currentNode.left;
-  }
-  return currentNode;
 }

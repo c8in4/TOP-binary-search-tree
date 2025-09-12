@@ -20,15 +20,17 @@ const data = [0, 1, 2, 3, 4, 5, 6];
 
 const tree = new Tree(testData);
 
-console.log("original tree:");
-prettyPrint(tree.root);
-
 tree.insert(2);
 tree.insert(45);
 tree.insert(20);
-tree.insert(6)
+tree.insert(6);
 
-tree.delIterative(8);
-
-console.log("altered tree:");
+console.log("original tree:");
 prettyPrint(tree.root);
+
+tree.find(16);
+// tree.deleteItem(8);
+// tree.deleteItem(4);
+
+// console.log("altered tree:");
+// prettyPrint(tree.root);

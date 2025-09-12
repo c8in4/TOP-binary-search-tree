@@ -43,42 +43,7 @@ export default class Tree {
   }
 
   deleteItem(value) {
-    this.delIterative(this.root, value);
-  }
-
-  deleteItemUtil(currentNode, value) {
-    if (currentNode === null) return null;
-
-    // find node with value
-    if (value < currentNode.data) {
-      currentNode.left = this.deleteItemUtil(currentNode.left, value);
-    } else if (value > currentNode.data) {
-      currentNode.right = this.deleteItemUtil(currentNode.right, value);
-    } else if (value == currentNode.data) {
-      // case: node has one or no child nodes
-      if (!currentNode.left) return currentNode.right;
-      if (!currentNode.right) return currentNode.left;
-
-      // case: node has 2 child nodes
-      let successorParent = currentNode;
-      let successor = currentNode.right;
-      while (successor.left !== null) {
-        successorParent = successor;
-        successor = successor.left;
-      }
-
-      currentNode.data = successor.data;
-
-      if (successorParent.left === successor) {
-        successorParent.left = successor.right;
-      } else {
-        successorParent.right = successor.right;
-      }
-    }
-    return currentNode;
-  }
-
-  delIterative(value) {
+    // this.delIterative(this.root, value);
     let previousNode = null;
     let currentNode = this.root;
 
@@ -126,5 +91,52 @@ export default class Tree {
         prev.right = curr.right;
       }
     }
+  }
+
+  deleteItemUtil(currentNode, value) {
+    if (currentNode === null) return null;
+
+    // find node with value
+    if (value < currentNode.data) {
+      currentNode.left = this.deleteItemUtil(currentNode.left, value);
+    } else if (value > currentNode.data) {
+      currentNode.right = this.deleteItemUtil(currentNode.right, value);
+    } else if (value == currentNode.data) {
+      // case: node has one or no child nodes
+      if (!currentNode.left) return currentNode.right;
+      if (!currentNode.right) return currentNode.left;
+
+      // case: node has 2 child nodes
+      let successorParent = currentNode;
+      let successor = currentNode.right;
+      while (successor.left !== null) {
+        successorParent = successor;
+        successor = successor.left;
+      }
+
+      currentNode.data = successor.data;
+
+      if (successorParent.left === successor) {
+        successorParent.left = successor.right;
+      } else {
+        successorParent.right = successor.right;
+      }
+    }
+    return currentNode;
+  }
+
+  find(value) {
+    let currentNode = this.root;
+    // iterate tree until value or null is found
+    while (currentNode !== null && currentNode.data !== value) {
+      if (value < currentNode.data) currentNode = currentNode.left;
+      else if (value > currentNode.data) currentNode = currentNode.right;
+    }
+
+    if (currentNode === null)
+      return console.log(`${value} does not exist in BST`);
+
+    console.log(`found node with value of ${value}:`, currentNode);
+    return currentNode;
   }
 }

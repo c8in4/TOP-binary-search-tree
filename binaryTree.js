@@ -43,7 +43,7 @@ export default class Tree {
   }
 
   deleteItem(value) {
-    this.deleteItemUtil(this.root, value);
+    this.delIterative(this.root, value);
   }
 
   deleteItemUtil(currentNode, value) {
@@ -52,11 +52,9 @@ export default class Tree {
     // find node with value
     if (value < currentNode.data) {
       currentNode.left = this.deleteItemUtil(currentNode.left, value);
-      return currentNode;
     } else if (value > currentNode.data) {
       currentNode.right = this.deleteItemUtil(currentNode.right, value);
-      return currentNode;
-    } else {
+    } else if (value == currentNode.data) {
       // case: node has one or no child nodes
       if (!currentNode.left) return currentNode.right;
       if (!currentNode.right) return currentNode.left;
@@ -77,7 +75,56 @@ export default class Tree {
         successorParent.right = successor.right;
       }
     }
-
     return currentNode;
+  }
+
+  delIterative(value) {
+    let previousNode = null;
+    let currentNode = this.root;
+
+    // find value or null
+    while (currentNode !== null && currentNode.data !== value) {
+      previousNode = currentNode;
+      if (value < currentNode.data) {
+        currentNode = currentNode.left;
+      } else {
+        currentNode = currentNode.right;
+      }
+    }
+    // value does not exist in BST
+    if (currentNode === null) {
+      return console.log("value is not in BST");
+    }
+    // check if value has max 1 child
+    if (currentNode.left === null || currentNode.right === null) {
+      let newcurrentNode =
+        currentNode.left === null ? currentNode.right : currentNode.left;
+
+      if (previousNode === null) {
+        this.root = newcurrentNode;
+      }
+      if (currentNode === previousNode.left) {
+        previousNode.left = newcurrentNode;
+      } else {
+        previousNode.right = newcurrentNode;
+      }
+    } else {
+      // case two child nodes
+      let prev = currentNode;
+      let curr = currentNode.right;
+
+      while (curr.left) {
+        prev = curr;
+        curr = curr.left;
+      }
+
+      currentNode.data = curr.data;
+
+      if (curr == prev.left) {
+        prev.left = curr.right;
+      } else {
+        prev.right = curr.right;
+      }
+    }
   }
 }

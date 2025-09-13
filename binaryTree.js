@@ -268,4 +268,14 @@ export default class Tree {
       return dist;
     }
   }
+
+  isBalanced() {}
+
+  rebalance() {
+    const data = [];
+    this.inOrderForEach((node) => data.push(node.data));
+    // console.log(data);
+
+    this.root = this.buildTree(data);
+  }
 }

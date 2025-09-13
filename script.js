@@ -32,9 +32,6 @@ prettyPrint(tree.root);
 // tree.deleteItem(8);
 // tree.deleteItem(4);
 
-// console.log("altered tree:");
-// prettyPrint(tree.root);
-
 // console.log("leverOrder traversal:");
 // tree.levelOrderRecursive(console.log);
 
@@ -49,4 +46,9 @@ prettyPrint(tree.root);
 
 // console.log(tree.height(4));
 
-console.log(tree.depth(6));
+// console.log(tree.depth(6));
+
+tree.rebalance();
+
+console.log("rebalanced tree:");
+prettyPrint(tree.root);

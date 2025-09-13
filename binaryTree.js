@@ -141,23 +141,33 @@ export default class Tree {
   }
 
   levelOrderForEach(callback) {
-    if (!callback) throw new Error("callback required");
+    try {
+      if (!callback) throw new Error("callback required");
 
-    const queue = [this.root];
+      const queue = [this.root];
 
-    while (queue.length > 0) {
-      let currentNode = queue[0];
-      callback(currentNode.data);
-      if (currentNode.left) queue.push(currentNode.left);
-      if (currentNode.right) queue.push(currentNode.right);
-      queue.shift();
+      while (queue.length > 0) {
+        let currentNode = queue[0];
+        callback(currentNode.data);
+        if (currentNode.left) queue.push(currentNode.left);
+        if (currentNode.right) queue.push(currentNode.right);
+        queue.shift();
+      }
+    } catch (error) {
+      console.error(error);
     }
   }
 
   levelOrderRecursive(callback) {
-    recurse([this.root]);
+    try {
+      if (!callback) throw new Error("callback required");
 
-    function recurse(list = []) {
+      recurse([this.root]);
+    } catch (error) {
+      console.error(error);
+    }
+
+    function recurse(list) {
       if (list.length < 1) return;
 
       const children = [];
@@ -168,6 +178,57 @@ export default class Tree {
         if (item.right) children.push(item.right);
       });
       recurse(children);
+    }
+  }
+
+  inOrderForEach(callback) {
+    try {
+      if (!callback) throw new Error("callback required");
+      inOrderRecursion(this.root);
+    } catch (error) {
+      console.error(error);
+    }
+
+    function inOrderRecursion(node) {
+      if (node === null) return;
+
+      inOrderRecursion(node.left);
+      callback(node.data);
+      inOrderRecursion(node.right);
+    }
+  }
+
+  preOrderForEach(callback) {
+    try {
+      if (!callback) throw new Error("callback required");
+      preOrderRecursion(this.root);
+    } catch (error) {
+      console.error(error);
+    }
+
+    function preOrderRecursion(node) {
+      if (node === null) return;
+
+      callback(node.data);
+      preOrderRecursion(node.left);
+      preOrderRecursion(node.right);
+    }
+  }
+
+  postOrderForEach(callback) {
+    try {
+      if (!callback) throw new Error("callback required");
+      postOrderRecursion(this.root);
+    } catch (error) {
+      console.error(error);
+    }
+
+    function postOrderRecursion(node) {
+      if (node === null) return;
+
+      postOrderRecursion(node.left);
+      postOrderRecursion(node.right);
+      callback(node.data);
     }
   }
 }

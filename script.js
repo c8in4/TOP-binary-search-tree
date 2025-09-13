@@ -28,9 +28,11 @@ tree.insert(6);
 console.log("original tree:");
 prettyPrint(tree.root);
 
-tree.find(16);
+// tree.find(3);
 // tree.deleteItem(8);
 // tree.deleteItem(4);
 
 // console.log("altered tree:");
 // prettyPrint(tree.root);
+
+tree.levelOrderRecursive(console.log);

@@ -139,4 +139,35 @@ export default class Tree {
     console.log(`found node with value of ${value}:`, currentNode);
     return currentNode;
   }
+
+  levelOrderForEach(callback) {
+    if (!callback) throw new Error("callback required");
+
+    const queue = [this.root];
+
+    while (queue.length > 0) {
+      let currentNode = queue[0];
+      callback(currentNode.data);
+      if (currentNode.left) queue.push(currentNode.left);
+      if (currentNode.right) queue.push(currentNode.right);
+      queue.shift();
+    }
+  }
+
+  levelOrderRecursive(callback) {
+    recurse([this.root]);
+
+    function recurse(list = []) {
+      if (list.length < 1) return;
+
+      const children = [];
+
+      list.forEach((item) => {
+        callback(item.data);
+        if (item.left) children.push(item.left);
+        if (item.right) children.push(item.right);
+      });
+      recurse(children);
+    }
+  }
 }

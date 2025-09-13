@@ -35,14 +35,16 @@ prettyPrint(tree.root);
 // console.log("altered tree:");
 // prettyPrint(tree.root);
 
-console.log("leverOrder traversal:");
-tree.levelOrderRecursive(console.log);
+// console.log("leverOrder traversal:");
+// tree.levelOrderRecursive(console.log);
 
-console.log("inOrder traversal:");
-tree.inOrderForEach(console.log);
+// console.log("inOrder traversal:");
+// tree.inOrderForEach(console.log);
 
-console.log("preOrder traversal:");
-tree.preOrderForEach(console.log);
+// console.log("preOrder traversal:");
+// tree.preOrderForEach(console.log);
 
-console.log("postOrder traversal:");
-tree.postOrderForEach(console.log);
+// console.log("postOrder traversal:");
+// tree.postOrderForEach(console.log);
+
+console.log(tree.height(2));

@@ -133,10 +133,10 @@ export default class Tree {
       else if (value > currentNode.data) currentNode = currentNode.right;
     }
 
-    if (currentNode === null)
-      return console.log(`${value} does not exist in BST`);
+    if (currentNode === null) return;
+    // console.log(`${value} does not exist in BST`);
 
-    console.log(`found node with value of ${value}:`, currentNode);
+    // console.log(`found node with value of ${value}:`, currentNode);
     return currentNode;
   }
 
@@ -148,7 +148,7 @@ export default class Tree {
 
       while (queue.length > 0) {
         let currentNode = queue[0];
-        callback(currentNode.data);
+        callback(currentNode);
         if (currentNode.left) queue.push(currentNode.left);
         if (currentNode.right) queue.push(currentNode.right);
         queue.shift();
@@ -173,7 +173,7 @@ export default class Tree {
       const children = [];
 
       list.forEach((item) => {
-        callback(item.data);
+        callback(item);
         if (item.left) children.push(item.left);
         if (item.right) children.push(item.right);
       });
@@ -193,7 +193,7 @@ export default class Tree {
       if (node === null) return;
 
       inOrderRecursion(node.left);
-      callback(node.data);
+      callback(node);
       inOrderRecursion(node.right);
     }
   }
@@ -209,7 +209,7 @@ export default class Tree {
     function preOrderRecursion(node) {
       if (node === null) return;
 
-      callback(node.data);
+      callback(node);
       preOrderRecursion(node.left);
       preOrderRecursion(node.right);
     }
@@ -228,7 +228,23 @@ export default class Tree {
 
       postOrderRecursion(node.left);
       postOrderRecursion(node.right);
-      callback(node.data);
+      callback(node);
     }
+  }
+
+  height(value) {
+    if (!this.find(value)) return null;
+
+    return recurse(this.find(value)) - 1;
+
+    function recurse(node) {
+      if (node === null) return 0;
+
+      const leftHeight = recurse(node.left);
+      const rightHeight = recurse(node.right);
+
+      return (leftHeight > rightHeight ? leftHeight : rightHeight) + 1;
+    }
+    // return height;
   }
 }

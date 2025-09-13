@@ -47,4 +47,6 @@ prettyPrint(tree.root);
 // console.log("postOrder traversal:");
 // tree.postOrderForEach(console.log);
 
-console.log(tree.height(2));
+// console.log(tree.height(4));
+
+console.log(tree.depth(6));

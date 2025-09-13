@@ -235,16 +235,37 @@ export default class Tree {
   height(value) {
     if (!this.find(value)) return null;
 
-    return recurse(this.find(value)) - 1;
+    return recurse(this.find(value));
 
     function recurse(node) {
-      if (node === null) return 0;
+      if (node === null) return -1;
 
       const leftHeight = recurse(node.left);
       const rightHeight = recurse(node.right);
 
       return (leftHeight > rightHeight ? leftHeight : rightHeight) + 1;
     }
-    // return height;
+  }
+
+  depth(value) {
+    if (!this.find(value)) return null;
+
+    return recurse(this.root);
+
+    function recurse(node) {
+      if (!node) return -1;
+
+      let dist = -1;
+
+      if (
+        node.data == value ||
+        (dist = recurse(node.left)) >= 0 ||
+        (dist = recurse(node.right)) >= 0
+      ) {
+        return dist + 1;
+      }
+
+      return dist;
+    }
   }
 }

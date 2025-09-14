@@ -101,9 +101,6 @@ export default class Tree {
     }
 
     if (currentNode === null) return;
-    // console.log(`${value} does not exist in BST`);
-
-    // console.log(`found node with value of ${value}:`, currentNode);
     return currentNode;
   }
 

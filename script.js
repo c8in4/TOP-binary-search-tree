@@ -14,46 +14,49 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   }
 };
 
+// TOP test data:
 const testData = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 
-const data = [0, 1, 2, 3, 4, 5, 6];
+const randomNumbers = createArrayOfRandomNumbers(15);
 
-const tree = new Tree(testData);
+function createArrayOfRandomNumbers(numberOfElements) {
+  const arr = [];
 
-tree.insert(2);
-tree.insert(45);
-tree.insert(20);
-tree.insert(6);
+  for (let i = 0; i < numberOfElements; i++) {
+    arr.push(Math.round(Math.random() * 100));
+  }
+  return arr;
+}
+
+const randomNumberBST = new Tree(randomNumbers);
 
 console.log("original tree:");
-prettyPrint(tree.root);
-console.log("tree is balanced?", tree.isBalanced());
+prettyPrint(randomNumberBST.root);
+console.log("tree is balanced?", randomNumberBST.isBalanced());
 
-// tree.find(3);
-// tree.deleteItem(8);
-// tree.deleteItem(4);
+console.log("random numbers in level order:");
+randomNumberBST.levelOrderForEach((node) => console.log(node.data));
 
-// console.log("leverOrder traversal:");
-// tree.levelOrderRecursive(console.log);
+console.log("random numbers in pre order:");
+randomNumberBST.preOrderForEach((node) => console.log(node.data));
 
-// console.log("inOrder traversal:");
-// tree.inOrderForEach(console.log);
+console.log("random numbers in post order:");
+randomNumberBST.postOrderForEach((node) => console.log(node.data));
 
-// console.log("preOrder traversal:");
-// tree.preOrderForEach(console.log);
+console.log("random numbers in order:");
+randomNumberBST.inOrderForEach((node) => console.log(node.data));
 
-// console.log("postOrder traversal:");
-// tree.postOrderForEach(console.log);
+const newNumbers = createArrayOfRandomNumbers(5);
+newNumbers.forEach((number) => {
+  randomNumberBST.insert(number);
+});
 
-// console.log(tree.height(4));
+console.log("tree with added numbers:");
+prettyPrint(randomNumberBST.root);
+console.log("tree is balanced?", randomNumberBST.isBalanced());
 
-tree.rebalance();
-tree.deleteItem(2);
-tree.deleteItem(7);
-tree.deleteItem(45)
+randomNumberBST.rebalance();
 
-console.log("altered tree:");
-prettyPrint(tree.root);
-console.log("tree is balanced?", tree.isBalanced());
-// console.log(tree.height(4));
-// console.log(tree.depth(6));
+console.log("rebalanced tree:");
+prettyPrint(randomNumberBST.root);
+console.log("tree is balanced?", randomNumberBST.isBalanced());

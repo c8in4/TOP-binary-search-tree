@@ -60,3 +60,15 @@ randomNumberBST.rebalance();
 console.log("rebalanced tree:");
 prettyPrint(randomNumberBST.root);
 console.log("tree is balanced?", randomNumberBST.isBalanced());
+
+console.log("random numbers in level order:");
+randomNumberBST.levelOrderForEach((node) => console.log(node.data));
+
+console.log("random numbers in pre order:");
+randomNumberBST.preOrderForEach((node) => console.log(node.data));
+
+console.log("random numbers in post order:");
+randomNumberBST.postOrderForEach((node) => console.log(node.data));
+
+console.log("random numbers in order:");
+randomNumberBST.inOrderForEach((node) => console.log(node.data));

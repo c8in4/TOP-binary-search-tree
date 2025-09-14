@@ -14,36 +14,35 @@ export default class Tree {
   buildTree(arr) {
     const sortedArr = arr.sort((a, b) => a - b);
     const uniqueArr = [...new Set(sortedArr)];
-    return this.buildTreeUtil(uniqueArr, 0, uniqueArr.length - 1);
-  }
+    return buildTreeRec(uniqueArr, 0, uniqueArr.length - 1);
 
-  buildTreeUtil(arr, start, end) {
-    if (start > end) return null;
+    function buildTreeRec(arr, start, end) {
+      if (start > end) return null;
 
-    const mid = start + Math.floor((end - start) / 2);
-    const newNode = new Node(arr[mid]);
-    newNode.left = this.buildTreeUtil(arr, start, mid - 1);
-    newNode.right = this.buildTreeUtil(arr, mid + 1, end);
-    return newNode;
+      const mid = start + Math.floor((end - start) / 2);
+      const newNode = new Node(arr[mid]);
+      newNode.left = buildTreeRec(arr, start, mid - 1);
+      newNode.right = buildTreeRec(arr, mid + 1, end);
+      return newNode;
+    }
   }
 
   insert(value) {
-    this.findNewNodesPosition(this.root, value);
-  }
+    insertRec(this.root, value);
 
-  findNewNodesPosition(currentNode, value) {
-    if (currentNode === null) return new Node(value);
+    function insertRec(currentNode, value) {
+      if (currentNode === null) return new Node(value);
 
-    if (value < currentNode.data) {
-      currentNode.left = this.findNewNodesPosition(currentNode.left, value);
-    } else if (value > currentNode.data) {
-      currentNode.right = this.findNewNodesPosition(currentNode.right, value);
+      if (value < currentNode.data) {
+        currentNode.left = insertRec(currentNode.left, value);
+      } else if (value > currentNode.data) {
+        currentNode.right = insertRec(currentNode.right, value);
+      }
+      return currentNode;
     }
-    return currentNode;
   }
 
   deleteItem(value) {
-    // this.delIterative(this.root, value);
     let previousNode = null;
     let currentNode = this.root;
 
@@ -93,38 +92,6 @@ export default class Tree {
     }
   }
 
-  deleteItemUtil(currentNode, value) {
-    if (currentNode === null) return null;
-
-    // find node with value
-    if (value < currentNode.data) {
-      currentNode.left = this.deleteItemUtil(currentNode.left, value);
-    } else if (value > currentNode.data) {
-      currentNode.right = this.deleteItemUtil(currentNode.right, value);
-    } else if (value == currentNode.data) {
-      // case: node has one or no child nodes
-      if (!currentNode.left) return currentNode.right;
-      if (!currentNode.right) return currentNode.left;
-
-      // case: node has 2 child nodes
-      let successorParent = currentNode;
-      let successor = currentNode.right;
-      while (successor.left !== null) {
-        successorParent = successor;
-        successor = successor.left;
-      }
-
-      currentNode.data = successor.data;
-
-      if (successorParent.left === successor) {
-        successorParent.left = successor.right;
-      } else {
-        successorParent.right = successor.right;
-      }
-    }
-    return currentNode;
-  }
-
   find(value) {
     let currentNode = this.root;
     // iterate tree until value or null is found
@@ -162,12 +129,12 @@ export default class Tree {
     try {
       if (!callback) throw new Error("callback required");
 
-      recurse([this.root]);
+      levelOrderRec([this.root]);
     } catch (error) {
       console.error(error);
     }
 
-    function recurse(list) {
+    function levelOrderRec(list) {
       if (list.length < 1) return;
 
       const children = [];
@@ -177,7 +144,7 @@ export default class Tree {
         if (item.left) children.push(item.left);
         if (item.right) children.push(item.right);
       });
-      recurse(children);
+      levelOrderRec(children);
     }
   }
 
@@ -235,13 +202,13 @@ export default class Tree {
   height(value) {
     if (!this.find(value)) return null;
 
-    return recurse(this.find(value));
+    return heightRec(this.find(value));
 
-    function recurse(node) {
+    function heightRec(node) {
       if (!node) return -1;
 
-      const leftHeight = recurse(node.left);
-      const rightHeight = recurse(node.right);
+      const leftHeight = heightRec(node.left);
+      const rightHeight = heightRec(node.right);
 
       return Math.max(leftHeight, rightHeight) + 1;
     }
@@ -250,17 +217,17 @@ export default class Tree {
   depth(value) {
     if (!this.find(value)) return null;
 
-    return recurse(this.root);
+    return depthRec(this.root);
 
-    function recurse(node) {
+    function depthRec(node) {
       if (!node) return -1;
 
       let depth = -1;
 
       if (
         node.data == value ||
-        (depth = recurse(node.left)) >= 0 ||
-        (depth = recurse(node.right)) >= 0
+        (depth = depthRec(node.left)) >= 0 ||
+        (depth = depthRec(node.right)) >= 0
       ) {
         return depth + 1;
       }
@@ -274,14 +241,17 @@ export default class Tree {
 
     function isBalancedRec(node) {
       if (!node) return 0;
+
       let leftHeight = isBalancedRec(node.left);
       let rightHeight = isBalancedRec(node.right);
+
       if (
         leftHeight === -1 ||
         rightHeight === -1 ||
         Math.abs(leftHeight - rightHeight) > 1
-      )
+      ) {
         return -1;
+      }
 
       return Math.max(leftHeight, rightHeight) + 1;
     }

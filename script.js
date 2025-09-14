@@ -27,6 +27,7 @@ tree.insert(6);
 
 console.log("original tree:");
 prettyPrint(tree.root);
+console.log("tree is balanced?", tree.isBalanced());
 
 // tree.find(3);
 // tree.deleteItem(8);
@@ -46,9 +47,13 @@ prettyPrint(tree.root);
 
 // console.log(tree.height(4));
 
-// console.log(tree.depth(6));
-
 tree.rebalance();
+tree.deleteItem(2);
+tree.deleteItem(7);
+tree.deleteItem(45)
 
-console.log("rebalanced tree:");
+console.log("altered tree:");
 prettyPrint(tree.root);
+console.log("tree is balanced?", tree.isBalanced());
+// console.log(tree.height(4));
+// console.log(tree.depth(6));

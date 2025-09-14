@@ -238,12 +238,12 @@ export default class Tree {
     return recurse(this.find(value));
 
     function recurse(node) {
-      if (node === null) return -1;
+      if (!node) return -1;
 
       const leftHeight = recurse(node.left);
       const rightHeight = recurse(node.right);
 
-      return (leftHeight > rightHeight ? leftHeight : rightHeight) + 1;
+      return Math.max(leftHeight, rightHeight) + 1;
     }
   }
 
@@ -255,27 +255,41 @@ export default class Tree {
     function recurse(node) {
       if (!node) return -1;
 
-      let dist = -1;
+      let depth = -1;
 
       if (
         node.data == value ||
-        (dist = recurse(node.left)) >= 0 ||
-        (dist = recurse(node.right)) >= 0
+        (depth = recurse(node.left)) >= 0 ||
+        (depth = recurse(node.right)) >= 0
       ) {
-        return dist + 1;
+        return depth + 1;
       }
 
-      return dist;
+      return depth;
     }
   }
 
-  isBalanced() {}
+  isBalanced() {
+    return isBalancedRec(this.root) > 0;
+
+    function isBalancedRec(node) {
+      if (!node) return 0;
+      let leftHeight = isBalancedRec(node.left);
+      let rightHeight = isBalancedRec(node.right);
+      if (
+        leftHeight === -1 ||
+        rightHeight === -1 ||
+        Math.abs(leftHeight - rightHeight) > 1
+      )
+        return -1;
+
+      return Math.max(leftHeight, rightHeight) + 1;
+    }
+  }
 
   rebalance() {
     const data = [];
     this.inOrderForEach((node) => data.push(node.data));
-    // console.log(data);
-
     this.root = this.buildTree(data);
   }
 }
